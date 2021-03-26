@@ -1,0 +1,19 @@
+{
+  "name": "pyyqww_t1",
+  "version": "1.0.16",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsc -w",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "typescript": "^4.2.3",
+    "eslint": "^7.22.0"
+  },
+  "files": [
+    "dist/*"
+  ],
+  "author": "pyyqww",
+  "license": "ISC"
+}
