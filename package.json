@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "start": "tsc -w",
+    "start": "rm -fr dist && tsc -w",
     "build": "tsc",
     "test": "jest --coverage"
   },
