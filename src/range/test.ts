@@ -1,0 +1,32 @@
+import {Ranges} from "./Range";
+
+it("should support range to", () => {
+    let r = Ranges.to(10, 20)
+    expect(r.length).toBe(11)
+    expect(r[0]).toBe(10)
+    expect(r[1]).toBe(11)
+    expect(r[2]).toBe(12)
+    expect(r[3]).toBe(13)
+    expect(r[4]).toBe(14)
+    expect(r[5]).toBe(15)
+    expect(r[6]).toBe(16)
+    expect(r[7]).toBe(17)
+    expect(r[8]).toBe(18)
+    expect(r[9]).toBe(19)
+    expect(r[10]).toBe(20)
+})
+
+it("should support range until", () => {
+    let r = Ranges.until(10, 20)
+    expect(r.length).toBe(10)
+    expect(r[0]).toBe(10)
+    expect(r[1]).toBe(11)
+    expect(r[2]).toBe(12)
+    expect(r[3]).toBe(13)
+    expect(r[4]).toBe(14)
+    expect(r[5]).toBe(15)
+    expect(r[6]).toBe(16)
+    expect(r[7]).toBe(17)
+    expect(r[8]).toBe(18)
+    expect(r[9]).toBe(19)
+})
