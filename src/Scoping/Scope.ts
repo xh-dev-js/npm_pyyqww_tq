@@ -22,7 +22,7 @@ export class Scope<T> implements Scope<T> {
     return this;
   };
 
-  ifEmptyProvide = (op: () => T): Scope<T> => {
+  ifEmptyProvide = (op: () => T|null): Scope<T> => {
     if (this.empty()) {
       return Scope.ofNullable(op())
     } else {
