@@ -2,7 +2,7 @@ export class Scope<T> implements Scope<T> {
     constructor(private value: T | null) {
     }
 
-    apply = (op: (t: T | null) => void): Scope<T> => {
+    apply(op: (t: T | null) => void): Scope<T> {
         if (this.nonEmpty()) {
             op(this.value!)
         }
@@ -14,14 +14,14 @@ export class Scope<T> implements Scope<T> {
         }
         return this;
     };
-    ifNonEmptyApply = (op: () => void): Scope<T> => {
+    ifNonEmptyApply(op: () => void): Scope<T>{
         if (this.nonEmpty()) {
             op()
         }
         return this;
     };
 
-    ifEmptyProvide = (op: () => T | null): Scope<T> => {
+    ifEmptyProvide(op: () => T | null): Scope<T> {
         if (this.empty()) {
             return Scope.ofNullable(op())
         } else {
@@ -29,7 +29,7 @@ export class Scope<T> implements Scope<T> {
         }
     };
 
-    ifEmpty = (t: T): Scope<T> => {
+    ifEmpty(t: T): Scope<T> {
         if (this.empty()) {
             return Scope.ofNullable(t)
         } else {
@@ -45,9 +45,15 @@ export class Scope<T> implements Scope<T> {
         }
     };
 
-    exists = (): boolean => this.nonEmpty();
-    missing = (): boolean => this.empty();
-    nonEmpty = (): boolean => !this.empty();
+    exists(): boolean {
+        return this.nonEmpty();
+    }
+    missing(): boolean {
+        return this.empty();
+    }
+    nonEmpty(): boolean {
+        return !this.empty();
+    }
 
     empty(): boolean {
         return this.value === null;
@@ -74,9 +80,11 @@ export class Scope<T> implements Scope<T> {
         return Scope.ofNullable(op());
     }
 
-    get = (): T | null => this.value;
+    get(): T | null {
+        return this.value;
+    }
 
-    getOr = (value: T): T => {
+    getOr(value: T): T {
         if (this.nonEmpty()) {
             return this.value!
         } else {
@@ -84,7 +92,7 @@ export class Scope<T> implements Scope<T> {
         }
     };
 
-    getOrProvide = (op: () => T): T => {
+    getOrProvide(op: () => T): T {
         if (this.nonEmpty()) {
             return this.value!
         } else {
