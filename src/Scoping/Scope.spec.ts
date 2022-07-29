@@ -56,6 +56,11 @@ describe("Test Scope", ()=>{
     expect(Scope.ofNullable(null).get()).toBe(null)
   })
 
+  it("input get nullable", ()=>{
+    expect(Scope.of(1).getNullable()).toBe(1)
+    expect(Scope.ofNullable(null).getNullable()).toBe(null)
+  })
+
   it("input get or", ()=>{
     expect(Scope.of(1).getOr(2)).toBe(1)
     expect(Scope.ofNullable<number>(null).getOr(2)).toBe(2)

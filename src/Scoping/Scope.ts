@@ -80,7 +80,11 @@ export class Scope<T> implements Scope<T> {
         return Scope.ofNullable(op());
     }
 
-    get(): T | null {
+    get(): T {
+        return this.value;
+    }
+
+    getNullable(): T | null {
         return this.value;
     }
 
