@@ -6,7 +6,7 @@ export module ImBusyModule {
     export interface ImBusy {
         jobId(): string;
 
-        doneMyJob();
+        doneMyJob():void;
     }
 
     export interface BusyMan {
@@ -14,7 +14,7 @@ export module ImBusyModule {
 
         amIBusy(): boolean;
 
-        jobIsDone(imBusy: ImBusy);
+        jobIsDone(imBusy: ImBusy):void;
     }
 
     export interface HackerMan {

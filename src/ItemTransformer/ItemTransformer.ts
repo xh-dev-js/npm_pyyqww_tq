@@ -1,12 +1,12 @@
-type Predicate<From> = (From) => Boolean
-type Transform<From, To> = (From) => To
+type Predicate<From> = (from:From) => Boolean
+type Transform<From, To> = (from:From) => To
 type CasePair<From, To> = [Predicate<From>, Transform<From, To>]
 
 export class ItemTransformer<From, To> {
     private readonly list: CasePair<From, To>[]
-    private readonly defaultTransform: Transform<From, To>
+    private readonly defaultTransform: Transform<From, To> | null
 
-    constructor(list: CasePair<From, To>[], defaultTransform: Transform<From, To>) {
+    constructor(list: CasePair<From, To>[], defaultTransform: Transform<From, To>|null) {
         this.list = list;
         this.defaultTransform = defaultTransform;
     }
@@ -24,7 +24,7 @@ export class ItemTransformer<From, To> {
     }
 
     static transfer<From, To>(): ItemTransformer<From, To> {
-        return new ItemTransformer<From, To>([], null);
+        return new ItemTransformer<From, To>([] , null);
     }
 
     match(from: From): To {
@@ -44,10 +44,10 @@ export class ItemTransformer<From, To> {
 
 export class CaseCriteria<From, To> {
     private readonly list: CasePair<From, To>[] = []
-    private readonly predicate: Predicate<From> = null;
-    private readonly defaultTransform: Transform<From, To> = null;
+    private readonly predicate: Predicate<From>;
+    private readonly defaultTransform: Transform<From, To> | null;
 
-    constructor(list: [Predicate<From>, Transform<From, To>][], defaultTransform: Transform<From, To>, predicate: Predicate<From>) {
+    constructor(list: [Predicate<From>, Transform<From, To>][], defaultTransform: Transform<From, To>|null, predicate: Predicate<From>) {
         this.list = list
         this.predicate = predicate
         this.defaultTransform = defaultTransform
