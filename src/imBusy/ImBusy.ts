@@ -1,4 +1,4 @@
-import {NewStringIdGen} from "../../IdGen/IdGen";
+import {NewStringIdGen} from "../IdGen/IdGen";
 
 export module ImBusyModule {
     export function busyMan(): BusyMan {

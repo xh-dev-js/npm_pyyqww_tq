@@ -104,6 +104,37 @@ describe('test single selection model', function () {
     it("test empty input ",()=>{
        expect(()=>SingleSelectionModel.New<A>([]) ).toThrow("selection must be with at least one element")
     })
+
+    it('test hook', ()=>{
+        const model = SingleSelectionModel.New(["a","b","c"])
+        let msg: string[] = []
+        model.register(SingleSelectionModel.NewHook(
+            it=>msg.push(`${it.value().get()} selected`),
+            it=> msg.push(`${it.value().get()} unselected`)
+        ))
+        model.select("a")
+        model.select("b")
+        model.select("c")
+        model.select("c")
+        model.select("a")
+
+        const msgList = [
+            "a selected",
+            "a unselected",
+            "b selected",
+            "b unselected",
+            "c selected",
+            "c unselected",
+            "a selected"
+        ]
+
+        msg.forEach((v,i,x)=>{
+            expect(v).toBe(msgList[i])
+        })
+        msgList.forEach((v,i,x)=>{
+            expect(v).toBe(msg[i])
+        })
+    })
 })
 
 describe("demo", ()=>{

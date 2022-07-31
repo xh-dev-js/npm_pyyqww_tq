@@ -1,6 +1,6 @@
 import {Scope, Scopes} from "../Scoping/Scopes";
 
-export module SingleSelectionModel{
+export module SingleSelectionModel {
     export function New<T>(ts: T[]): SingleSelectionModel<T> {
         return Scopes.of(new SelectionsImpl<T>())
             .apply(it => it.setSelections(ts))
@@ -12,6 +12,12 @@ export module SingleSelectionModel{
             .apply(it => it.setSelectionsWithDefault(ts))
             .get()
     }
+
+    export function NewHook<T>(
+        whenSelect: (t:Selection<T>)=>void,
+        whenUnSelect: (t:Selection<T>)=>void): SelectHook<T>{
+        return new SelectHookImpl<T>(whenSelect, whenUnSelect)
+    }
 }
 
 export interface Selection<T> {
@@ -21,6 +27,28 @@ export interface Selection<T> {
 
     select(): void
 
+
+}
+
+export interface SelectHook<T> {
+    whenSelect(t: Selection<T>): void
+
+    whenUnSelect(t: Selection<T>): void
+}
+
+class SelectHookImpl<T> implements SelectHook<T>{
+    constructor(
+        private _whenSelect: (t:Selection<T>)=>void,
+        private _whenUnSelect: (t:Selection<T>)=>void,
+        ) {
+    }
+    whenSelect(t: Selection<T>): void {
+        this._whenSelect(t)
+    }
+
+    whenUnSelect(t: Selection<T>): void {
+        this._whenUnSelect(t)
+    }
 
 }
 
@@ -49,6 +77,8 @@ export interface SingleSelectionModel<T> {
     setSelections(list: T[]): Selection<T>[]
 
     setSelectionsWithDefault(list: T[]): Selection<T>[]
+
+    register(hook: SelectHook<T>): void
 }
 
 class SelectionImpl<T> implements Selection<T> {
@@ -157,13 +187,17 @@ class SelectionsImpl<T> implements SingleSelectionModel<T>, SingleSelectionSelec
     }
 
     setCur(toBeSet: SelectionImpl<T>, toBeUnset: SelectionImpl<T>): void {
-        // if (toBeSet instanceof SelectionImpl && toBeUnset instanceof SelectionImpl) {
-        toBeUnset.selectSelect(false)
-        toBeSet.selectSelect(true)
+
+        if(toBeUnset.isSelected()){
+            toBeUnset.selectSelect(false)
+            this.hooks.forEach(it => it.whenUnSelect(toBeUnset))
+        }
+
+        if(!toBeSet.isSelected()){
+            toBeSet.selectSelect(true)
+            this.hooks.forEach(it => it.whenSelect(toBeSet))
+        }
         this.currentSelection = toBeSet
-        // } else {
-        //     throw new Error("Unmatched type")
-        // }
     }
 
     findSelection(selection: Selection<T>): Selection<T> {
@@ -183,6 +217,13 @@ class SelectionsImpl<T> implements SingleSelectionModel<T>, SingleSelectionSelec
         } else {
             throw new Error("Not found")
         }
+    }
+
+    private hooks: SelectHook<T>[] = []
+
+    register(hook: SelectHook<T>): void {
+        this.hooks.push(hook)
+        hook.whenSelect(this.getCur())
     }
 
 }
