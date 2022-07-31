@@ -78,7 +78,7 @@ export interface SingleSelectionModel<T> {
 
     setSelectionsWithDefault(list: T[]): Selection<T>[]
 
-    register(hook: SelectHook<T>): void
+    register(hook: SelectHook<T>): SingleSelectionModel<T>
 }
 
 class SelectionImpl<T> implements Selection<T> {
@@ -221,9 +221,10 @@ class SelectionsImpl<T> implements SingleSelectionModel<T>, SingleSelectionSelec
 
     private hooks: SelectHook<T>[] = []
 
-    register(hook: SelectHook<T>): void {
+    register(hook: SelectHook<T>): SingleSelectionModel<T> {
         this.hooks.push(hook)
         hook.whenSelect(this.getCur())
+        return this
     }
 
 }
