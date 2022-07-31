@@ -105,3 +105,33 @@ describe('test single selection model', function () {
        expect(()=>SingleSelectionModel.New<A>([]) ).toThrow("selection must be with at least one element")
     })
 })
+
+describe("demo", ()=>{
+    const lsOfOptions = ["a","b","c"]
+    const model = SingleSelectionModel.NewWithDefault(lsOfOptions) //with an empty default selected item
+    // const model = SingleSelectionModel.New(lsOfOptions) //with out an empty default selected item
+    const cur = model.getCur()              // get current selection, must have 1 selection
+    const empty = model.findEmpty()         // get empty selection, only exists when init with NewWithDefault function
+    console.log(cur === empty)              // ==> true
+    expect(cur).toBe(empty)
+    const options = model.findOptions()     // get all non-empty option selection
+    const all = model.getAll()              // all = [options + empty]
+
+    const optionA = model.find("a")       // optionA === options[0] === all[1]
+    console.log(optionA == options[0])
+    console.log(optionA == all[1])
+    expect(optionA).toBe(options[0])
+    expect(optionA).toBe(all[1])
+
+
+    //OptionA: false, Empty: true
+    console.log(`OptionA: ${optionA.isSelected()}, Empty: ${empty.isSelected()}`)
+    expect(optionA.isSelected()).toBe(false)
+    expect(empty.isSelected()).toBe(true)
+    optionA.select()                        // select optionA
+    //OptionA: true, Empty: false
+    console.log(`OptionA: ${optionA.isSelected()}, Empty: ${empty.isSelected()}`)
+    expect(optionA.isSelected()).toBe(true)
+    expect(empty.isSelected()).toBe(false)
+
+})

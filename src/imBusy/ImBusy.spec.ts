@@ -1,6 +1,7 @@
 import {ImBusyModule} from "./ImBusy";
 import HackerMan = ImBusyModule.HackerMan;
 import busyMan = ImBusyModule.busyMan;
+import NewSimpleHook = ImBusyModule.NewSimpleHook;
 
 describe("Test ImBuxy", () => {
     it("initial busy man", () => {
@@ -129,4 +130,19 @@ describe("Test ImBuxy", () => {
 
 
     })
+})
+
+describe("demo", () => {
+    const man = busyMan()
+    let inited = false
+    let busy = false
+    man.register(NewSimpleHook(
+        it => busy = it, // status change hook, called when status change
+        it => inited = it)   // initialize hook, call when register
+    )
+    console.log(`Registered: ${inited}, Busy: ${busy}`) // Registered: true, Busy: false
+    const j1 = man.newJob()
+    console.log(`Registered: ${inited}, Busy: ${busy}`) // Registered: true, Busy: true
+    j1.doneMyJob()
+    console.log(`Registered: ${inited}, Busy: ${busy}`) // Registered: true, Busy: false
 })
