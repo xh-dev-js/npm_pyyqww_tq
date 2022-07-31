@@ -109,6 +109,7 @@ describe('test single selection model', function () {
         const model = SingleSelectionModel.New(["a","b","c"])
         let msg: string[] = []
         model.register(SingleSelectionModel.NewHook(
+            it=>msg.push(`Init with: ${it.value().get()}`),
             it=>msg.push(`${it.value().get()} selected`),
             it=> msg.push(`${it.value().get()} unselected`)
         ))
@@ -119,7 +120,7 @@ describe('test single selection model', function () {
         model.select("a")
 
         const msgList = [
-            "a selected",
+            "Init with: a",
             "a unselected",
             "b selected",
             "b unselected",

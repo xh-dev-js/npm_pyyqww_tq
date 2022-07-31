@@ -14,9 +14,10 @@ export module SingleSelectionModel {
     }
 
     export function NewHook<T>(
-        whenSelect: (t:Selection<T>)=>void,
-        whenUnSelect: (t:Selection<T>)=>void): SelectHook<T>{
-        return new SelectHookImpl<T>(whenSelect, whenUnSelect)
+        whenInit: (t: Selection<T>) => void,
+        whenSelect: (t: Selection<T>) => void,
+        whenUnSelect: (t: Selection<T>) => void): SelectHook<T> {
+        return new SelectHookImpl<T>(whenInit, whenSelect, whenUnSelect)
     }
 }
 
@@ -31,23 +32,31 @@ export interface Selection<T> {
 }
 
 export interface SelectHook<T> {
+    whenInit(t: Selection<T>): void
+
     whenSelect(t: Selection<T>): void
 
     whenUnSelect(t: Selection<T>): void
 }
 
-class SelectHookImpl<T> implements SelectHook<T>{
+class SelectHookImpl<T> implements SelectHook<T> {
     constructor(
-        private _whenSelect: (t:Selection<T>)=>void,
-        private _whenUnSelect: (t:Selection<T>)=>void,
-        ) {
+        private _whenInit: (t: Selection<T>) => void,
+        private _whenSelect: (t: Selection<T>) => void,
+        private _whenUnSelect: (t: Selection<T>) => void,
+    ) {
     }
+
     whenSelect(t: Selection<T>): void {
         this._whenSelect(t)
     }
 
     whenUnSelect(t: Selection<T>): void {
         this._whenUnSelect(t)
+    }
+
+    whenInit(t: Selection<T>): void {
+        this._whenInit(t)
     }
 
 }
@@ -188,12 +197,12 @@ class SelectionsImpl<T> implements SingleSelectionModel<T>, SingleSelectionSelec
 
     setCur(toBeSet: SelectionImpl<T>, toBeUnset: SelectionImpl<T>): void {
 
-        if(toBeUnset.isSelected()){
+        if (toBeUnset.isSelected()) {
             toBeUnset.selectSelect(false)
             this.hooks.forEach(it => it.whenUnSelect(toBeUnset))
         }
 
-        if(!toBeSet.isSelected()){
+        if (!toBeSet.isSelected()) {
             toBeSet.selectSelect(true)
             this.hooks.forEach(it => it.whenSelect(toBeSet))
         }
@@ -223,7 +232,7 @@ class SelectionsImpl<T> implements SingleSelectionModel<T>, SingleSelectionSelec
 
     register(hook: SelectHook<T>): SingleSelectionModel<T> {
         this.hooks.push(hook)
-        hook.whenSelect(this.getCur())
+        hook.whenInit(this.getCur())
         return this
     }
 
