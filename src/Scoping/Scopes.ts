@@ -40,7 +40,7 @@ export interface Scope<T> {
 
     ifEmptyApply(op: () => void): Scope<T>
 
-    ifNonEmptyApply(op: () => void): Scope<T>
+    ifNonEmptyApply(op: (t: T) => void): Scope<T>
 
 
     // do if

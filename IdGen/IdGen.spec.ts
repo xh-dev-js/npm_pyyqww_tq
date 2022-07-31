@@ -1,4 +1,3 @@
-import {NewNumberIdGen, NewStringIdGen} from "./IdGen";
 
 describe("Test Id Generator", () => {
     it("simple test for number id gen", ()=>{

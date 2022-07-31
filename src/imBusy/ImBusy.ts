@@ -1,4 +1,4 @@
-import exp from "constants";
+import {NewStringIdGen} from "../../IdGen/IdGen";
 
 export module ImBusyModule {
     export function busyMan(): BusyMan {
@@ -113,8 +113,7 @@ export module ImBusyModule {
             oper(this.busyList)
         }
 
-        private hookId = 0
-        private hookIdGen = () => `${++this.hookId}`
+        private hookIdGen = NewStringIdGen()
         private hooks: BusyHook[] = []
 
         deRegister(busyHook: ImBusyModule.BusyHook): void {
@@ -122,7 +121,7 @@ export module ImBusyModule {
         }
 
         register(busyHook: ImBusyModule.BusyHook): ImBusyModule.BusyHook {
-            busyHook.setId(this.hookIdGen())
+            busyHook.setId(this.hookIdGen.next())
             this.hooks.push(busyHook)
             busyHook.initHook(this.amIBusy())
             return busyHook;

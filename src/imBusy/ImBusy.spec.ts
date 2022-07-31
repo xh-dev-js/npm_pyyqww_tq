@@ -91,7 +91,10 @@ describe("Test ImBuxy", () => {
             }
         )
 
+        expect(hook.id()).toBe("")
         man.register(hook)
+        expect(hook.id()).toBe("1")
+
         expect(v).toBe(1)
         expect(b).toBe(false)
         let j1 = man.newJob()
@@ -113,6 +116,17 @@ describe("Test ImBuxy", () => {
         j1.doneMyJob()
         expect(v).toBe(3)
         expect(b).toBe(false)
+
+        const j3 = man.newJob()
+        expect(v).toBe(4)
+        expect(b).toBe(true)
+
+        man.deRegister(hook)
+
+        j3.doneMyJob()
+        expect(v).toBe(4)
+        expect(b).toBe(true)
+
 
     })
 })
