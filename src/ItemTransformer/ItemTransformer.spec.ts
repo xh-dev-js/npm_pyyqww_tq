@@ -6,10 +6,10 @@ describe("demo", ()=>{
         .inCaseValue(1).thenValue("1")
         .defaultValue("2")
 
-    console.log(itemTransfer.match(0))             // "0"
-    console.log(itemTransfer.match(1))             // "1"
-    console.log(itemTransfer.match(2))             // "2"
-    console.log(itemTransfer.match(3))             // "2"
+    // console.log(itemTransfer.match(0))             // "0"
+    // console.log(itemTransfer.match(1))             // "1"
+    // console.log(itemTransfer.match(2))             // "2"
+    // console.log(itemTransfer.match(3))             // "2"
 })
 
 describe('test case', function () {

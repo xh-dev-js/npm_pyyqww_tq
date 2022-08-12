@@ -11,7 +11,7 @@ it("", () => {
             `${String.fromCharCode(value)}||${HalfWidthConversion.toHalfWidth(String.fromCharCode(value))}||${index}||${value}||${value.toString(16)}`
         )
         .reduce((a, b) => `${a}\n${b}`)
-    console.log(`Size: ${range.length}\n${msg}`)
+    // console.log(`Size: ${range.length}\n${msg}`)
 })
 
 it("", () => {
@@ -24,5 +24,5 @@ it("", () => {
             `${String.fromCharCode(value)}||${HalfWidthConversion.toFullWidth(String.fromCharCode(value))}||${index}||${value}||${value.toString(16)}`
         )
         .reduce((a, b) => `${a}\n${b}`)
-    console.log(`Size: ${range.length}\n${msg}`)
+    // console.log(`Size: ${range.length}\n${msg}`)
 })

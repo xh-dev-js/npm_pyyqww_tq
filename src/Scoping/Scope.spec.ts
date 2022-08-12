@@ -214,20 +214,20 @@ describe("demo", () => {
 
         // create empty Scope
         let variableOf1: Scope<number> = Scopes.ofNullable<number>(null)
-        console.log(variableOf1.get()) // => null
+        // console.log(variableOf1.get()) // => null
 
         // create non-empty scope
         let variableOf2: Scope<number> = Scopes.of(1)
-        console.log(variableOf2.get()) // => 1
+        // console.log(variableOf2.get()) // => 1
         let variableO3: number = Scopes.ofElse<number>(null, 3).get()
-        console.log(variableO3) // => 3
+        // console.log(variableO3) // => 3
         let variable04 = Scopes.ofNullable<number>(null).ifEmpty(4).get()
-        console.log(variable04) // => 4
+        // console.log(variable04) // => 4
 
 
         // if not specify the type, when passing null, result type is not expected
         let variable05: null = Scopes.ofNullable(null).get()
-        console.log(variable05) // => null
+        // console.log(variable05) // => null
     })
 
     it("demo code 2", () => {
@@ -238,15 +238,15 @@ describe("demo", () => {
 
         // Init newly create object
         let v1: Scope<A> = Scopes.of(new A()).apply(it => it.a = 100) // A.a = 100
-        console.log(v1.get())
+        // console.log(v1.get())
         let v2: Scope<A> = Scopes.ofNullable<A>(null).apply(it => it.a = 100) // A = null, if null apply statment is not executed
-        console.log(v2.get())
+        // console.log(v2.get())
         let v3: Scope<A> = Scopes.ofNullable<A>(new A()).ifThenApply(it => it.a == 1, it => it.a = 2) // A.a = 2
-        console.log(v3.get())
+        // console.log(v3.get())
 
         // Update value by condition
         let v4: Scope<A> = Scopes.ofNullable<A>(new A()).ifThenApply(it => it.a == 0, it => it.a = 2) // A.a = 1
-        console.log(v4.get())
+        // console.log(v4.get())
 
 
         class B {
@@ -259,6 +259,6 @@ describe("demo", () => {
 
         // conversion of instance
         let v5: Scope<B> = Scopes.ofNullable<A>(new A()).map(it => B.fromA(it)) // B.b = 1
-        console.log(v5.get())
+        // console.log(v5.get())
     })
 })

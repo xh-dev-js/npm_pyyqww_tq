@@ -68,9 +68,6 @@ describe("Test ImBuxy", () => {
 
         let hackerMan = busyMan as unknown as HackerMan
         hackerMan.modifyList(map => {
-            [...map.entries()].map((it, _) => {
-                console.log(`Delete: ${it[0]}`)
-            })
             map.clear()
         })
 
@@ -140,9 +137,9 @@ describe("demo", () => {
         it => busy = it, // status change hook, called when status change
         it => inited = it)   // initialize hook, call when register
     )
-    console.log(`Registered: ${inited}, Busy: ${busy}`) // Registered: true, Busy: false
+    // console.log(`Registered: ${inited}, Busy: ${busy}`) // Registered: true, Busy: false
     const j1 = man.newJob()
-    console.log(`Registered: ${inited}, Busy: ${busy}`) // Registered: true, Busy: true
+    // console.log(`Registered: ${inited}, Busy: ${busy}`) // Registered: true, Busy: true
     j1.doneMyJob()
-    console.log(`Registered: ${inited}, Busy: ${busy}`) // Registered: true, Busy: false
+    // console.log(`Registered: ${inited}, Busy: ${busy}`) // Registered: true, Busy: false
 })
