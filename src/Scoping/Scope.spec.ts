@@ -206,6 +206,28 @@ describe("Test Scope", () => {
         expect(a.s).toBe(300)
     })
 
+    it("filterBy", () => {
+        // Test fail filter by
+        expect(
+            Scopes.empty<number>()
+                .filterBy((it)=>it===1).isEmpty()
+        ).toBe(true)
+        expect(
+            Scopes.of(100)
+                .filterBy((it)=>it===1).isEmpty()
+        ).toBe(true)
+
+        // Test fail filter by
+        expect(
+            Scopes.of(100)
+                .filterBy((it)=>it===100).nonEmpty()
+        ).toBe(true)
+        expect(
+            Scopes.of(100)
+                .filterBy((it)=>it===100).get()
+        ).toBe(100)
+    })
+
 })
 
 describe("demo", () => {

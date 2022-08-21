@@ -88,6 +88,9 @@ console.log(variableO3) // => 3
 let variable04 = Scopes.ofNullable<number>(null).ifEmpty(4).get()
 console.log(variable04) // => 4
 
+Scopes.empty<number>().filterBy((it)=>it === 100).isEmpty() // if scope is empty, always return true
+Scopes.of(100).filterBy((it)=>it === 1).isEmpty()           // if scope filter fail, return true
+Scopes.of(100).filterBy((it)=>it === 100).isEmpty()         // if scope passed the filter, return false with existing object
 
 // if not specify the type, when passing null, result type is not expected
 let variable05: null = Scopes.ofNullable(null).get()

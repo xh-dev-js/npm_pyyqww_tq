@@ -68,6 +68,8 @@ export interface Scope<T> {
 
     getOrProvide(op: () => T): T;
 
+    filterBy(filterFunc: (it:T)=>boolean):Scope<T>
+
 }
 
 export class ScopeImpl<T> implements Scope<T> {
@@ -182,6 +184,14 @@ export class ScopeImpl<T> implements Scope<T> {
             return Scopes.ofNullable(mapTo(this.get()))
         } else {
             return Scopes.ofNullable(elseOperation())
+        }
+    }
+
+    filterBy(filterFunc: (it: T) => boolean): Scope<T> {
+        if(this.nonEmpty()){
+            return filterFunc(this.get())? this: Scopes.empty<T>()
+        } else {
+            return this
         }
     }
 
