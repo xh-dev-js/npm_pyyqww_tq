@@ -1,9 +1,10 @@
 import {BehaviorSubject, filter, map, Observable, Subject} from "rxjs";
+import {Scope, Scopes} from "../Scoping/Scopes";
 
 export interface ObsPair<T> {
   sub: Subject<T>
   obs: Observable<T>
-  value: ()=>T
+  value: ()=>Scope<T>
 }
 
 export module RxServiceService {
@@ -14,12 +15,12 @@ export module RxServiceService {
       map((it) => it!)
     )
 
-    return {sub: subject as Subject<T>, obs: observable, value: () => subject.value!}
+    return {sub: subject as Subject<T>, obs: observable, value: () => Scopes.of(subject.value!)}
   }
 
   export function obsd<T>(d: T): ObsPair<T> {
     const subject = new BehaviorSubject<T>(d)
-    return {sub: subject, obs: subject, value: () => subject.value}
+    return {sub: subject, obs: subject, value: () => Scopes.of(subject.value)}
   }
 
 }
