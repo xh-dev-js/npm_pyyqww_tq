@@ -3,6 +3,7 @@ import {BehaviorSubject, filter, map, Observable, Subject} from "rxjs";
 export interface ObsPair<T> {
   sub: Subject<T>
   obs: Observable<T>
+  value: ()=>T
 }
 
 export module RxServiceService {
@@ -13,12 +14,12 @@ export module RxServiceService {
       map((it) => it!)
     )
 
-    return {sub: subject as Subject<T>, obs: observable}
+    return {sub: subject as Subject<T>, obs: observable, value: () => subject.value!}
   }
 
   export function obsd<T>(d: T): ObsPair<T> {
     const subject = new BehaviorSubject<T>(d)
-    return {sub: subject, obs: subject}
+    return {sub: subject, obs: subject, value: () => subject.value}
   }
 
 }
